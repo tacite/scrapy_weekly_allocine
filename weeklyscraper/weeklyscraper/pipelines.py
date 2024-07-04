@@ -42,11 +42,11 @@ class WeeklyscraperPipeline:
         return weeklyItem
     
     def clean_titre_original_reprise(self,weeklyItem: WeeklyscraperItem, parsingAdapter: ItemAdapter, weeklyAdapter: ItemAdapter):
-        titre = parsingAdapter.get('titre_original')
+        titre = parsingAdapter.get('titre_original_reprise')
         weeklyAdapter['titre_original'] = weeklyAdapter.get('titre')
         weeklyAdapter['date_reprise'] = "N/A"
         if titre:
-            for index, value in titre:
+            for index, value in enumerate(titre):
                 if value == "Date de reprise":
                     weeklyAdapter['date_reprise'] = titre[index + 1].replace('\n', '')
                 if value == "Titre original ":
@@ -226,8 +226,6 @@ class DatabasePipeline:
         film = relationship('Film', back_populates='acteurs')
     
     def open_spider(self, spider):
-        
-        
         
         username = "postgres"
         password = "3}~pg09B"
